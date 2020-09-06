@@ -1,0 +1,29 @@
+{
+  "name": "Agency App",
+  "version": "1.0",
+  "description" : "TBD",
+  "manifest_version": 2,
+  "icons": {
+    "128": "icon.jpg"
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "background": { "scripts": ["hot-reload.js"] },
+  "content_scripts": [
+    {
+      "matches": ["https://*.facebook.com/*"],
+       "js": ["jquery-3.1.1.min.js", "content.js"]
+    }
+  ],
+  "browser_action": {
+    "default_title": "TBD",
+    "default_popup": "popup.html"
+   },
+   
+
+  "permissions": [
+    "tabs",
+    "storage",
+    "activeTab",
+    "pageCapture"
+  ]
+}
