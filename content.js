@@ -22,11 +22,21 @@ chrome.runtime.onMessage.addListener(
               //console.log("Asking for count ");
               sendResponse({result: newsCount, result2: saved_news.length, result_array: saved_news});
               break;
+          case "viewPost":
+              //console.log("reached!");
+              sendResponse({result: "Recieved!"});
+              if (saved_news.length != 0) {
+                document.body.innerHTML = saved_news[saved_news.length-1];
+                saved_news.pop();
+              }
+
+              break;
           default:
               console.error("Unrecognised message: ", message);
       }
   }
 );
+
 
 
 
@@ -47,7 +57,8 @@ function nodeInsertedCallback(event) {
     .replace(/['"]+/g, '')
 
 
-    if (content.toLowerCase().includes('coronavirus')) { //change includes notation to ML analysis
+
+    if (!(content.toLowerCase().includes('coronavirus') || content.toLowerCase().includes('covid'))) { //change includes notation to ML analysis
 
           localStorage.setItem('ncount', ++newsCount);
 

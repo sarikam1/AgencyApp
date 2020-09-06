@@ -1,7 +1,4 @@
 console.log("Testing!!");
-document.addEventListener('DOMContentLoaded', function () {
-    main();
- });
 
  window.onload = function() {
     console.log("Testing!!");
@@ -16,30 +13,41 @@ document.addEventListener('DOMContentLoaded', function () {
           document.getElementById("counter2").innerHTML = "Number of filtered posts in current session is " + res2;
           const urls_array = response.result_array;
 
-          
-
       });
 
       
 
       //document.getElementById("counter").innerHTML = "Public Offers";
   });
-    
-
 
   }
+
+  document.addEventListener('DOMContentLoaded', function () {
+      var link = document.getElementById('button_one');
+      // onClick's logic below:
+      link.addEventListener('click', function() { //view a post'
+        alert("Viewing saved post");
+
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+          chrome.tabs.sendMessage(tabs[0].id, {type: "viewPost"}, function(response) {
+    
+          });
+          window.close();
+    
+          
+    
+          //document.getElementById("counter").innerHTML = "Public Offers";
+      });
+      });
+ });
+
+
+
+ 
+
 
   //CHANGE:
-  function clickHandler(element) { //For Asma-->modify function to toggle filtering on/off
-      //var keywords = document.getElementById('toggle').value;
-      //https://stackoverflow.com/questions/31111721/pass-a-variable-from-content-script-to-popup/31112456
-        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-          chrome.storage.local.set({'filter': 'News'}, function() {
-            message('Settings saved');
-          });
-            window.close();
-           });
-  }
+
 
 
 
