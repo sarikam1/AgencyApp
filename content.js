@@ -1,5 +1,7 @@
 console.log("START!");
 
+const saved_news = [];
+
 const urls=[];
 
 //setting news objects
@@ -13,32 +15,18 @@ chrome.storage.local.get({urls: []}, function (result) {
 var newsCount = +localStorage.getItem('ncount') || 0;
 
 
-
-
-
-// chrome.runtime.onMessage.addListener(
-//   //https://developer.chrome.com/extensions/messaging
-//   function(request, sender, sendResponse) {
-//     //toggle on and off here-
- 
-//   }
-// );
-
-
-// function filter(target)
-// {
-//     for (var i = 0; i < triggers.length; i++)
-//       {
-//         console.log("filtering!");
-//         if (target.innerHTML.indexOf(triggers[i]) !== -1)
-//         {
-//           target.style.display = "none";
-//           break;
-//         }
-//       }        
-// }
-
-
+chrome.runtime.onMessage.addListener(
+  function(message, sender, sendResponse) {
+      switch(message.type) {
+          case "getCount":
+              //console.log("Asking for count ");
+              sendResponse({result: newsCount, result2: saved_news.length, result_array: saved_news});
+              break;
+          default:
+              console.error("Unrecognised message: ", message);
+      }
+  }
+);
 
 
 
@@ -70,10 +58,11 @@ function nodeInsertedCallback(event) {
             var footstr = "</body>";
             var newstr = e.innerHTML;
             const saved_data = headstr + newstr + footstr;
-            
-            //var pop = window.open('about:blank', '_blank');
+            saved_news.push(saved_data);
+            //console.log(saved_news.length);
+            //var pop = window.open('about:blank');
             //console.log(headstr + newstr + footstr);
-            //pop.document.body.innerHTML = headstr + newstr + footstr; //--> to help visualize posts
+            //pop.document.body.innerHTML = saved_data; //--> to help visualize posts
             return false;
 
           }
